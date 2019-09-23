@@ -24,10 +24,12 @@ SOURCES += rtttl_player.cpp
 HEADERS += note_player_file.hpp
 SOURCES += note_player_file.cpp
 
+SOURCES += melody.cpp
+
 # other places to look for files for this project
 SEARCH  := 
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
-include $(RELATIVE)Makefile.native
+include $(RELATIVE)Makefile.due

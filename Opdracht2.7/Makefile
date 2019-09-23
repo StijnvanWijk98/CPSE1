@@ -8,6 +8,8 @@
 # 
 #############################################################################
 
+# include Maakfile
+
 # source & header files in this project (main.cpp is automatically assumed)
 
 HEADERS += note.hpp
@@ -24,10 +26,16 @@ SOURCES += rtttl_player.cpp
 HEADERS += note_player_file.hpp
 SOURCES += note_player_file.cpp
 
+SOURCES += melody.cpp
+
+melody.cpp:
+	$(make -f Maakfile melody.cpp)
+	$(make -f Maakfile schoonmaken)
+
 # other places to look for files for this project
 SEARCH  := 
 
 # set REATIVE to the next higher directory 
 # and defer to the Makefile.due there
 RELATIVE := $(RELATIVE)../
-include $(RELATIVE)Makefile.native
+include $(RELATIVE)Makefile.due

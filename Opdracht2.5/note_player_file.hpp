@@ -1,15 +1,13 @@
-#ifndef _NOTE_PLAYER_NATIVE_HPP
-#define _NOTE_PLAYER_NATIVE_HPP
+#ifndef _NOTE_PLAYER_FILE_HPP
+#define _NOTE_PLAYER_FILE_HPP
 
 #include "note_player.hpp"
-#include "hwlib.hpp"
 #include "fstream"
+#include "iostream"
 
-using hwlib::cout;
-using hwlib::endl;
 using std::ofstream;
 
-class note_player_native : public note_player {
+class note_player_file : public note_player {
    ofstream writefile;
    bool firstPlay = true;
 public:
