@@ -8,8 +8,6 @@
 # 
 #############################################################################
 
-# include Maakfile
-
 # source & header files in this project (main.cpp is automatically assumed)
 
 HEADERS += note.hpp
