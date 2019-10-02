@@ -19,6 +19,6 @@ int main(void) {
   constexpr auto sin_tab = lookup<360, ARRTYPE>(sinFromDeg);
   constexpr auto cos_tab = lookup<360, ARRTYPE>(cosFromDeg);
 
-  auto test_clock = customClock(mid_point, 30, sin_tab, cos_tab, hour_plus, minutes_plus, change, confirm);
+  auto test_clock = analogClock(mid_point, 30, sin_tab, cos_tab, hour_plus, minutes_plus, change, confirm);
   test_clock.updateClock(oled);
 }

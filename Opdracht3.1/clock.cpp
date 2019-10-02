@@ -8,15 +8,17 @@ void clockTime::updateTime() {
     uint64_t overflow = diff_mear - 1e6;
     seconds += diff_time;
     last_mear = new_mear + overflow;
-    if (seconds >= 60) {
-      minutes++;
-      seconds = 0;
-    }
-    if (minutes >= 60) {
-      hours++;
-      minutes = 0;
-    }
-    if (hours >= 12) hours = 0;
+  }
+  if (seconds >= 60) {
+    minutes++;
+    seconds = 0;
+  }
+  if (minutes >= 60) {
+    hours++;
+    minutes = 0;
+  }
+  if (hours > 11) {
+    hours = 0;
   }
 }
 
@@ -39,8 +41,9 @@ void clockArm::draw(window& w) {
   if (update_needed) {
     line del_arm = line(start, old_end, color{0, 0, 0});
     del_arm.draw(w);
-    int x_end = sin_tab.get(time_val * deg_fac) * length;
-    int y_end = cos_tab.get(time_val * deg_fac) * length * -1;
+    int loc_table = time_val * deg_fac;
+    int x_end = sin_tab.get(loc_table) * length;
+    int y_end = cos_tab.get(loc_table) * length * -1;
     xy new_end = xy(x_end, y_end) + start;
     line new_arm = line(start, new_end);
     new_arm.draw(w);
@@ -53,7 +56,7 @@ void clockArm::update(int new_time, bool update) {
   time_val = new_time;
 }
 
-void customClock::draw(window& w) {
+void analogClock::draw(window& w) {
   if (first_draw) {
     base.draw(w);
     first_draw = false;
@@ -65,21 +68,26 @@ void customClock::draw(window& w) {
   w.flush();
 }
 
-void customClock::updateClock(window& w) {
+void analogClock::updateClock(window& w) {
   // int hours_bool;
   bool min_updt = true;
   bool hour_updt = true;
   while (true) {
+    but_hour_up.refresh();
+    but_min_up.refresh();
+    if (!but_hour_up.read()) {
+      hours++;
+    }
+    if (!but_min_up.read()) {
+      minutes++;
+    }
+
     updateTime();
     // DRAW
     sec_arm.update(seconds, true);
     min_arm.update(minutes, min_updt);
     hour_arm.update(hours, hour_updt);
     draw(w);
-		but_hour_up.refresh();
-		but_min_up.refresh();
-		if(!but_hour_up.read()) hours++;
-		if(!but_min_up.read()) minutes++;
 
     // UPDATE TO DRAW OR NOT
     // hours_bool = hours*5;

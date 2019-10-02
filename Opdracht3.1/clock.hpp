@@ -78,7 +78,7 @@ class clockArm : public drawable {
   void update(int new_time, bool update);
 };
 
-class customClock : public drawable, public clockTime {
+class analogClock : public drawable, public clockTime {
  private:
   int radius;
   const lookup<360, ARRTYPE> sin_tab;
@@ -94,7 +94,7 @@ class customClock : public drawable, public clockTime {
   pin_in& but_confirm;
 
  public:
-  customClock(xy loc, int radius, const lookup<360, ARRTYPE>& sin_tab, const lookup<360, ARRTYPE>& cos_tab,
+  analogClock(xy loc, int radius, const lookup<360, ARRTYPE>& sin_tab, const lookup<360, ARRTYPE>& cos_tab,
               pin_in& but_1, pin_in& but_2, pin_in& but_3, pin_in& but_4)
       : drawable(loc),
         clockTime(),
