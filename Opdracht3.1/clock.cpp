@@ -22,6 +22,17 @@ void clockTime::updateTime() {
   }
 }
 
+void clockTime::updateButton() {
+  but_hour_up.refresh();
+  but_min_up.refresh();
+  if (!but_hour_up.read()) {
+    hours++;
+  }
+  if (!but_min_up.read()) {
+    minutes++;
+  }
+}
+
 void clockBase::draw(window& w) {
   for (int i = 0; i < 360; i++) {
     int x_scaled = sin_tab.get(i) * radius;
@@ -73,15 +84,7 @@ void analogClock::updateClock(window& w) {
   bool min_updt = true;
   bool hour_updt = true;
   while (true) {
-    but_hour_up.refresh();
-    but_min_up.refresh();
-    if (!but_hour_up.read()) {
-      hours++;
-    }
-    if (!but_min_up.read()) {
-      minutes++;
-    }
-
+		updateButton();
     updateTime();
     // DRAW
     sec_arm.update(seconds, true);

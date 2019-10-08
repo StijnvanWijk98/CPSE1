@@ -21,13 +21,19 @@ class clockTime {
  protected:
   uint64_t last_mear;
   uint64_t diff_time = 0;  // In microseconds
-	unsigned int seconds = 0;
-	unsigned int minutes = 0;
-	unsigned int hours = 0;
+  unsigned int seconds = 0;
+  unsigned int minutes = 0;
+  unsigned int hours = 0;
+  pin_in& but_hour_up;
+  pin_in& but_min_up;
+
   void updateTime();
+  void updateButton();
 
  public:
-  clockTime() : last_mear(0) { last_mear = now_us(); }
+  clockTime(pin_in& but_hour, pin_in& but_min) : last_mear(0), but_hour_up(but_hour), but_min_up(but_min) {
+    last_mear = now_us();
+  }
   uint64_t getActual();
   void addToActual(int to_add);
 };
@@ -88,23 +94,16 @@ class analogClock : public drawable, public clockTime {
   clockArm min_arm;
   clockArm hour_arm;
   bool first_draw = true;
-  pin_in& but_hour_up;
-  pin_in& but_min_up;
-  pin_in& but_down;
-  pin_in& but_confirm;
 
  public:
   analogClock(xy loc, int radius, const lookup<360, ARRTYPE>& sin_tab, const lookup<360, ARRTYPE>& cos_tab,
-              pin_in& but_1, pin_in& but_2, pin_in& but_3, pin_in& but_4)
+              pin_in& but_1, pin_in& but_2)
       : drawable(loc),
-        clockTime(),
+        clockTime(but_1, but_2),
         radius(radius),
         sin_tab(sin_tab),
-        cos_tab(cos_tab),
-        but_hour_up(but_1),
-        but_min_up(but_2),
-        but_down(but_3),
-        but_confirm(but_4) {
+        cos_tab(cos_tab)
+  {
     base = clockBase(loc, radius, sin_tab, cos_tab);
     sec_arm = clockArm(loc, radius - (radius / 4), sin_tab, cos_tab);
     min_arm = clockArm(loc, radius - (radius / 3), sin_tab, cos_tab);
@@ -113,6 +112,10 @@ class analogClock : public drawable, public clockTime {
 
   void draw(window& w) override;
   void updateClock(window& w);
+};
+
+class binaryClock : public drawable, public clockTime {
+	
 };
 
 #endif

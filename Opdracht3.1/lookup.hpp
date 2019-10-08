@@ -1,7 +1,6 @@
 #ifndef LOOKUP_HPP
 #define LOOKUP_HPP
 
-// #include "cmath"
 #include "customMath.hpp"
 #include "hwlib.hpp"
 

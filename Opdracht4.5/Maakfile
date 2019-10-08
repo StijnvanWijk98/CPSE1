@@ -1,0 +1,20 @@
+g++ := g++ -std=c++17
+ln := g++ -std=c++17
+rm := rm -f
+
+.PHONEY: bouwen schoonmaken compressed.asm
+
+bouwen: compresser.exe
+
+schoonmaken:
+	$(rm) compresser.exe compresser.o
+
+compressed.asm: bouwen
+	$ ./compresser.exe
+
+compresser.exe: main_compress.o
+	$(ln) main_compress.o -o compresser.exe
+
+main_compress.o: main_compress.cpp
+	$(g++) -c main_compress.cpp -o main_compress.o
+

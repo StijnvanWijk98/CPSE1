@@ -5,8 +5,7 @@ int main(void) {
 
   auto hour_plus = target::pin_in{target::pins::d25};
   auto minutes_plus = target::pin_in{target::pins::d24};
-  auto change = target::pin_in{target::pins::d8};
-  auto confirm = target::pin_in{target::pins::d8};
+  auto change = target::pin_in{target::pins::d23};
 
   auto scl = target::pin_oc{target::pins::scl};
   auto sda = target::pin_oc{target::pins::sda};
@@ -19,6 +18,6 @@ int main(void) {
   constexpr auto sin_tab = lookup<360, ARRTYPE>(sinFromDeg);
   constexpr auto cos_tab = lookup<360, ARRTYPE>(cosFromDeg);
 
-  auto test_clock = analogClock(mid_point, 30, sin_tab, cos_tab, hour_plus, minutes_plus, change, confirm);
+  auto test_clock = analogClock(mid_point, 30, sin_tab, cos_tab, hour_plus, minutes_plus);
   test_clock.updateClock(oled);
 }
