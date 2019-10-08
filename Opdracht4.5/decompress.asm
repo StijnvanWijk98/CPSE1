@@ -25,7 +25,7 @@ checker:
 	push {r4, r5, r6, lr}
 	mov r4, r0 								// Save the current mem add of str in r4
 	ldrb r0, [r4]							// Load char on given mem add in r0
-	cmp r0, #64								// Check if char is @
+	cmp r0, #'@'							// Check if char is @
 	beq check_at_sign					// If char == @
 check_normal:								// Else:
 	bl char_actions						// Does char action
@@ -35,7 +35,7 @@ check_at_sign:							// If:
 	ldr r0, =buffer						// Get first mem add of buffer
 	ldrb r1, [r4 , #1]				// Load offset char
 	ldrb r2, [r4 , #2]				// Load length char
-	mov r3, #48								// 38 is char 0 in dec. Used to substract to get values
+	mov r3, #'0'							// 38 is char 0 in dec. Used to substract to get values
 	sub r5, r1, r3						// Get offset replace
 	sub r6, r2, r3						// Get length replace
 	add r4, r0, r5						// Get start buffer pos, oldest char
@@ -57,7 +57,7 @@ char_actions:
 	mov r4, r0								// Save the char in r4
 	bl add_to_buffer					// Add char to buffer
 	mov r0, r4								// reload char in r0
-	cmp r0, #33								// Check if char is !
+	cmp r0, #'!'								// Check if char is !
 	bne char_print						// Char not ! than just print char
 	mov r0, #10								// Char == ! then char = \n | Line feed
 char_print:
@@ -67,18 +67,18 @@ char_print:
 // WORKS: shifts and puts the given char in r0 to the front
 add_to_buffer:
 	push {r4, r5, lr}
-	mov r4, r0						// Save variable that needs to be added to buffer
-	ldr r5, =buffer				// mem add off buffer[0]
-	mov r1, #39						// #39 is max buffer_pos
-	add r0, r5, r1 				// mem add off buffer[39] (max pos)
+	mov r4, r0								// Save variable that needs to be added to buffer
+	ldr r5, =buffer						// mem add off buffer[0]
+	mov r1, #39								// #39 is max buffer_pos
+	add r0, r5, r1 						// mem add off buffer[39] (max pos)
 add_buffer_loop:
-	cmp r0, r5						// Check if new mem add is min mem add
-	beq add_buffer_done		// if mem add off buffer[i] == buffer[0] than done
-	sub r1, r0, #1 				// mem add off buffer[i-1] saved in r1
-	ldrb r2, [r1]					// get value off buffer[i-1]
-	strb r2, [r0]					// save value off buffer[i-1] in buffer[i]
-	mov r0, r1						// decrease the loop
+	cmp r0, r5								// Check if new mem add is min mem add
+	beq add_buffer_done				// if mem add off buffer[i] == buffer[0] than done
+	sub r1, r0, #1 						// mem add off buffer[i-1] saved in r1
+	ldrb r2, [r1]							// get value off buffer[i-1]
+	strb r2, [r0]							// save value off buffer[i-1] in buffer[i]
+	mov r0, r1								// decrease the loop
 	b add_buffer_loop
 add_buffer_done:
-	strb r4, [r0]					// buffer[i/0] = value given in r0 at start
+	strb r4, [r0]							// buffer[i/0] = value given in r0 at start
 	pop {r4, r5, pc}
