@@ -23,7 +23,7 @@ decompres_done:
 // Function checks if char in mem add is @. Based on that puts char in buffer and cout
 checker:
 	push {r4, r5, r6, lr}
-	mov r4, r0 								// Save the current mem add of str in r4
+	mov r4, r0 								// Save the current mem add of asciz in r4
 	ldrb r0, [r4]							// Load char on given mem add in r0
 	cmp r0, #'@'							// Check if char is @
 	beq check_at_sign					// If char == @

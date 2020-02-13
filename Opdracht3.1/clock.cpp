@@ -1,13 +1,10 @@
 #include "clock.hpp"
 
 void clockTime::updateTime() {
-  uint64_t new_mear = now_us();
-  uint64_t diff_mear = new_mear - last_mear;
-  diff_time = diff_mear / 1e6;
-  if (diff_time >= 1) {
-    uint64_t overflow = diff_mear - 1e6;
-    seconds += diff_time;
-    last_mear = new_mear + overflow;
+  uint64_t new_seconds = now_us()/1e6;
+  if (new_seconds >= total_seconds) {
+    total_seconds++;
+    seconds++;
   }
   if (seconds >= 60) {
     minutes++;
